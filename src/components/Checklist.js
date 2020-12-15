@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
+//Styling the checkbox
 const useStyles = makeStyles({
   root: {
     "&:hover": {
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
     backgroundColor: "white",
   },
 
+  //styling the checkbox image
   checkedIcon: {
     backgroundColor: "white",
     "&:before": {
@@ -37,7 +39,7 @@ const useStyles = makeStyles({
 const Page = styled.section`
   max-width: 1024px;
   margin: 0 auto;
-  background-color: rgb(238, 227, 227);
+  background-color: #f1f2f6;
 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -61,83 +63,86 @@ const Card = styled.div`
   user-select: none;
 
   .text {
-    font-size: 16pt;
+    font-size: 14pt;
     font-weight: 500;
   }
 `;
 
+//json array
 const list = [
   { text: "👶🏻 Be born", checked: false },
-  { text: "Take first steps", checked: false },
-  { text: "Say first words", checked: false },
-  { text: "Learn to read", checked: false },
-  { text: "Make a friend", checked: false },
-  { text: "Learn to ride a bike", checked: false },
-  { text: "Read a book", checked: false },
-  { text: "Learn to swim", checked: false },
-  { text: "Finish elementary school", checked: false },
-  { text: "Play a sport", checked: false },
-  { text: "Fly in a plane", checked: false },
-  { text: "Ride a boat", checked: false },
-  { text: "Ride in a train", checked: false },
-  { text: "Ride a helicopter", checked: false },
-  { text: "See the ocean", checked: false },
-  { text: "See snow", checked: false },
-  { text: "Make a snowman", checked: false },
-  { text: "Finish middle school", checked: false },
-  { text: "Go to a concert", checked: false },
-  { text: "Go camping", checked: false },
-  { text: "Ride a rollercoaster", checked: false },
-  { text: "Play an instrument", checked: false },
-  { text: "Get kissed", checked: false },
-  { text: "Get a credit card", checked: false },
-  { text: "Start driving", checked: false },
-  { text: "Go on a roadtrip", checked: false },
-  { text: "Visit another country", checked: false },
-  { text: "Give a speech", checked: false },
-  { text: "Graduate high school", checked: false },
-  { text: "Learn another language", checked: false },
-  { text: "Invest some money", checked: false },
-  { text: "Meet an idol", checked: false },
-  { text: "Make a terrible mistake", checked: false },
-  { text: "Win a trophy", checked: false },
-  { text: "Climb a mountain", checked: false },
-  { text: "Run a marathon", checked: false },
-  { text: "Learn to cook", checked: false },
-  { text: "Explore a cave", checked: false },
-  { text: "See a volcano", checked: false },
-  { text: "Graduate college", checked: false },
-  { text: "Have a long relationship", checked: false },
-  { text: "Get dumped", checked: false },
-  { text: "Sign a contract", checked: false },
-  { text: "Get a job", checked: false },
-  { text: "Get promoted", checked: false },
-  { text: "Get a paycheck", checked: false },
-  { text: "Get fired", checked: false },
-  { text: "Get in the news", checked: false },
-  { text: "Vote in an election", checked: false },
-  { text: "Switch careers", checked: false },
-  { text: "Buy a house", checked: false },
-  { text: "Get engaged", checked: false },
-  { text: "Get married", checked: false },
-  { text: "Have a kid", checked: false },
-  { text: "Teach your kid to walk", checked: false },
-  { text: "Teach your kid to talk", checked: false },
-  { text: "Watch your kid graduate", checked: false },
-  { text: "Watch your kid get married", checked: false },
-  { text: "Become a grandparent", checked: false },
-  { text: "Retire", checked: false },
-  { text: "Tell your grandkid a story", checked: false },
-  { text: "See a solar eclipse", checked: false },
-  { text: "Plant a garden", checked: false },
-  { text: "Travel the world", checked: false },
-  { text: "Turn 100", checked: false },
-  { text: "Complete Life Checklist", checked: false },
+  { text: "🚶🏻‍♂️ Take first steps", checked: false },
+  { text: "📣 Say first words", checked: false },
+  { text: "👨‍🏫 Learn to read", checked: false },
+  { text: "👩🏼‍🤝‍👩🏻 Make a friend", checked: false },
+  { text: "🚴🏻‍♀️ Learn to ride a bike", checked: false },
+  { text: "📕 Read a book", checked: false },
+  { text: "⚽ Play a sport", checked: false },
+  { text: "🎒 Finish elementary school", checked: false },
+  { text: "🏊🏻‍♀️ Learn to swim", checked: false },
+  { text: "🚆 Ride in a train", checked: false },
+  { text: "🌊 See the ocean", checked: false },
+  { text: "🚤 Ride a boat", checked: false },
+  { text: "❄️ See snow", checked: false },
+  { text: "☃️ Make a snowman", checked: false },
+  { text: "🛫 Fly in a plane", checked: false },
+  { text: "🎤 Give a speech", checked: false },
+  { text: "🎻 Play an instrument", checked: false },
+  { text: "🏆 Win a trophy", checked: false },
+  { text: "🏫 Finish middle school", checked: false },
+  { text: "🎢 Ride a rollercoaster", checked: false },
+  { text: "🗺️ Go on a roadtrip", checked: false },
+  { text: "🏕️ Go camping", checked: false },
+  { text: "💋 Get kissed", checked: false },
+  { text: "🎶 Go to a concert", checked: false },
+  { text: "🚁 Ride a helicopter", checked: false },
+  { text: "🏫 Graduate high school", checked: false },
+  { text: "💳 Get a credit card", checked: false },
+  { text: "🚗 Start driving", checked: false },
+  { text: "🌐 Learn another language", checked: false },
+  { text: "💸 Invest some money", checked: false },
+  { text: "📷 Meet an idol", checked: false },
+  { text: "😩 Make a terrible mistake", checked: false },
+  { text: "⛰️ Climb a mountain", checked: false },
+  { text: "🎽 Run a marathon", checked: false },
+  { text: "🍳 Learn to cook", checked: false },
+  { text: "🔦 Explore a cave", checked: false },
+  { text: "🌋 See a volcano", checked: false },
+  { text: "🎓 Graduate college", checked: false },
+  { text: "🗾 Visit another country", checked: false },
+  { text: "💕 Have a long relationship", checked: false },
+  { text: "🗑️ Get dumped", checked: false },
+  { text: "🖊️ Sign a contract", checked: false },
+  { text: "🏢 Get a job", checked: false },
+  { text: "☝️  Get promoted", checked: false },
+  { text: "💵 Get a paycheck", checked: false },
+  { text: "🔥  Get fired", checked: false },
+  { text: "📰 Get in the news", checked: false },
+  { text: "🗳️ Vote in an election", checked: false },
+  { text: "🤡 Switch careers", checked: false },
+  { text: "🏠 Buy a house", checked: false },
+  { text: "💍 Get engaged", checked: false },
+  { text: "👰🏻 Get married", checked: false },
+  { text: "🌎 Travel the world", checked: false },
+  { text: "🤱🏻 Have a kid", checked: false },
+  { text: "🚶🏻‍♀️ Teach your kid to walk", checked: false },
+  { text: "📣 Teach your kid to talk", checked: false },
+  { text: "🎓 Watch your kid graduate", checked: false },
+  { text: "👰🏻 Watch your kid get married", checked: false },
+  { text: "👴🏻 Become a grandparent", checked: false },
+  { text: "🏖️ Retire", checked: false },
+  { text: "📔 Tell your grandkid a story", checked: false },
+  { text: "🌑 See a solar eclipse", checked: false },
+  { text: "🌷 Plant a garden", checked: false },
+  { text: "🎂 Turn 100", checked: false },
+  { text: "✔️ Complete Life Checklist", checked: false },
 ];
 
 const CheckList = () => {
-  const classes = useStyles();
-  const [checkList, setCheckList] = useState(list);
+  const classes = useStyles(); //Material Ui hook
+  const [checkList, setCheckList] = useState(
+    JSON.parse(localStorage.getItem("list")) || list
+  );
 
   const handleClick = (index) => {
     setCheckList((oldState) => {
@@ -150,6 +155,10 @@ const CheckList = () => {
     });
   };
 
+  useEffect(() => {
+    localStorage.setItem("list", JSON.stringify(checkList));
+  }, [checkList]);
+
   return (
     <>
       <Page>
@@ -157,11 +166,11 @@ const CheckList = () => {
           <Card
             isChecked={item.checked}
             onClick={() => {
-              handleClick(index); //calling a fn
+              handleClick(index); //calling a function
             }}
           >
             <Checkbox
-              className={classes.root}
+              className={classes.root} // Defining the checkbox
               icon={<span className={classes.icon} />}
               checkedIcon={
                 <span className={clsx(classes.icon, classes.checkedIcon)} />
