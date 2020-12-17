@@ -68,6 +68,39 @@ const Card = styled.div`
   }
 `;
 
+const Progress = styled.div`
+  position: relative;
+  max-width: calc(1024px - 2rem);
+  padding: 1.5rem;
+  margin: 0 auto;
+  text-align: center;
+  background: white;
+  width: 100%;
+
+  .ProgressText {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .ProgressBar {
+    background-color: rgb(241, 242, 246);
+    max-width: 900px;
+    height: 2.5rem;
+    border-radius: 0.25rem;
+    margin: 15px auto 0px;
+    overflow: hidden;
+  }
+
+  .CompletedItems {
+    background-color: #0bda51;
+    /* width: 20rem; */
+    width: ${(props) => props.percent}%;
+    height: 2.5rem;
+    border-radius: 0.25rem;
+    overflow: hidden;
+  }
+`;
+
 //json array
 const list = [
   { text: "👶🏻 Be born", checked: false },
@@ -131,7 +164,7 @@ const list = [
   { text: "👰🏻 Watch your kid get married", checked: false },
   { text: "👴🏻 Become a grandparent", checked: false },
   { text: "🏖️ Retire", checked: false },
-  { text: "📔 Tell your grandkid a story", checked: false },
+  { text: "📘 Tell your grandkid a story", checked: false },
   { text: "🌑 See a solar eclipse", checked: false },
   { text: "🌷 Plant a garden", checked: false },
   { text: "🎂 Turn 100", checked: false },
@@ -155,6 +188,8 @@ const CheckList = () => {
     });
   };
 
+  const barwidth = checkList.filter((item) => item.checked === true).length;
+
   useEffect(() => {
     localStorage.setItem("list", JSON.stringify(checkList));
   }, [checkList]);
@@ -166,7 +201,11 @@ const CheckList = () => {
           <Card
             isChecked={item.checked}
             onClick={() => {
-              handleClick(index); //calling a function
+              if (index === list.length - 1) {
+                if (barwidth >= list.length - 1) handleClick(index);
+              } else {
+                handleClick(index);
+              } //calling a function
             }}
           >
             <Checkbox
@@ -183,6 +222,16 @@ const CheckList = () => {
           </Card>
         ))}
       </Page>
+
+      <Progress percent={(barwidth * 100) / list.length}>
+        <span className="ProgressText">
+          {" "}
+          You've completed {barwidth}/66 items{" "}
+        </span>
+        <div className="ProgressBar">
+          <div className="CompletedItems"></div>
+        </div>
+      </Progress>
     </>
   );
 };
