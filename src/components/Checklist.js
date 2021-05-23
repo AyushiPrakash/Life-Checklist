@@ -39,7 +39,7 @@ const useStyles = makeStyles({
 const Page = styled.section`
   max-width: 1024px;
   margin: 0 auto;
-  background-color: #c2c9cf;
+  background-color: #e4efe7;
 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
